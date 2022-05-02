@@ -1,5 +1,4 @@
 <?php
-
 class Category
 {
     // Make database connection and also check the table name
@@ -27,7 +26,7 @@ class Category
             return false;
         }
         // query to insert record
-        $query = "INSERT INTO " . $this->table_name . " SET name=:name, parent=:parent, display_homepage=:display_homepage, placeholder=:placeholder";
+        $query = "INSERT INTO " . $this->table_name . " SET name=:name, parent=:parent, display_homepage=:display_homepage, placeholder=:placeholder, created_at=CURRENT_DATE()";
 
         // prepare query
         $stmt = $this->conn->prepare($query);
@@ -84,17 +83,26 @@ class Category
     {
         if(empty($this->name)){
            $this->name = '';
+            $this->name = htmlspecialchars(strip_tags($this->name));
         }
         if(empty($this->parent)){
            $this->parent = '';
+            $this->parent = htmlspecialchars(strip_tags($this->parent));
         }
-        $query = "UPDATE category SET name=COALESCE(NULLIF(:name, ''), name), parent=COALESCE(NULLIF(:parent, ''), parent), placeholder=COALESCE(NULLIF(:placeholder, ''), placeholder), display_homepage=COALESCE(NULLIF(:display_homepage, ''), display_homepage) WHERE id=:id";
+        switch ($this->display_homepage){
+            case 'true'||'TRUE':
+                $this->display_homepage = 1;
+                break;
+            case 'false'||'FALSE':
+                $this->display_homepage = 0;
+                break;
+            default: $this->display_homepage = 0;
+        }
+        $query = "UPDATE category SET name=COALESCE(NULLIF(:name, ''), name), parent=COALESCE(NULLIF(:parent, ''), parent), placeholder=COALESCE(NULLIF(:placeholder, ''), placeholder), display_homepage=:display_homepage, updated_at=CURRENT_DATE() WHERE id=:id";
 
         $stmt = $this->conn->prepare($query);
         // sanitize
         $this->id = htmlspecialchars(strip_tags($this->id));
-        $this->name = htmlspecialchars(strip_tags($this->name));
-        $this->parent = htmlspecialchars(strip_tags($this->parent));
         $this->placeholder = htmlspecialchars(strip_tags($this->placeholder));
         $this->display_homepage = htmlspecialchars(strip_tags($this->display_homepage));
 

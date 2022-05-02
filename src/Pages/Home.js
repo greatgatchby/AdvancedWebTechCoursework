@@ -29,6 +29,7 @@ const Home = () =>{
         xmlhttp.onreadystatechange = function() {
             if (this.readyState === 4 && this.status === 200) {
                 setCategoryList(JSON.parse(xmlhttp.responseText).data)
+                console.log(JSON.parse(xmlhttp.responseText).data)
             }
         }
         xmlhttp.open("GET","http://localhost/18021745/php/category");
@@ -46,17 +47,17 @@ const Home = () =>{
                     <Link to={'/all-books'} className={'stretched-link'} />
                 </div>
                 <div className="row d-flex justify-content-center min-vh-40">
-                    {categoryList.map((category) =>
-                        category.display_on_homepage ? (<div key={category.id} className="col-sm-6 mb-3">
+                    {categoryList ? categoryList.map((category) =>
+                        category.display_homepage ? (<div key={category.id} className="col-sm-6 mb-3">
                             <div className={"card home-page-nav-img-container p-0 overflow-hidden"}>
-                                <img className="card-img home-page-nav-img" src={category.image} alt="Card image" />
+                                <img className="card-img home-page-nav-img" src={category.placeholder} alt="Card image" />
                                 <div className="card-img-overlay">
                                     <h1>{category.name}</h1>
                                 </div>
                                 <Link to={'/category/' + category.id} className={'stretched-link'}/>
                             </div>
                         </div>) : null
-                    )}
+                    ): null}
                 </div>
             </div>
         )

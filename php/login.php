@@ -10,7 +10,7 @@ $db = $database->getConnection();
 // prepare user object
 $user = new User($db);
 // set ID property of user to be edited
-$user->username = isset($_GET['username']) ? $_GET['username'] : die();
+$user->phone = isset($_GET['phone']) ? $_GET['phone'] : die();
 $user->password = isset($_GET['password']) ? $_GET['password'] : die();
 // read the details of user to be edited
 $stmt = $user->login();

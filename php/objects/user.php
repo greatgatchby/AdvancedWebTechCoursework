@@ -22,7 +22,7 @@ class User{
             return false;
         }
         // query to insert record
-        $query = "INSERT INTO " . $this->table_name . " SET email=:email,phone=:phone,country_code=:country_code, password=:password, created=:created";
+        $query = "INSERT INTO " . $this->table_name . " SET email=:email,phone=:phone,country_code=:country_code, password=:password, created_at=CURRENT_DATE()";
 
         // prepare query
         $stmt = $this->conn->prepare($query);

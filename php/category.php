@@ -42,17 +42,27 @@ switch ($request_method) {
             $stmt = $category->readAll();
             if ($stmt->rowCount() > 0) {
                 // get retrieved row
-                $category_arr = ["status" => true,
-                    "message" => "Success!"];
+                $data_arr = [];
+                $display_homepage = false;
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    switch ($row['display_homepage']){
+                        case 1 : $display_homepage = true; break;
+                        case 0 :  $display_homepage = false; break;
+                    }
                     $cat_item = array(
                         "id" => $row['id'],
                         "name" => $row['name'],
                         "parent" => $row['parent'],
-                        "display_homepage" => $row['display_homepage']
+                        "placeholder" => $row['placeholder'],
+                        "display_homepage" => $display_homepage
                     );
-                    array_push($category_arr, $cat_item);
+                    array_push($data_arr, $cat_item);
                 }
+                $category_arr = ["status" => true,
+                    "message" => "Success!",
+                    "data" => $data_arr
+                ];
+                array_push($data_arr, $category_arr);
                 // create array
 
             } else {
@@ -100,10 +110,10 @@ switch ($request_method) {
         parse_str(file_get_contents("php://input"),$post_vars);
         if (!empty($post_vars['id'])){
             $category->id = $post_vars['id'];
-            $category->name = $_POST['name'];
-            $category->placeholder = isset($_POST['placeholder']) ?  $_POST['placeholder'] : null;
-            $category->parent = isset($_POST['parent']) ?  $_POST['parent'] : null;
-
+            $category->name = isset($post_vars['name']) ?  $post_vars['name'] : null;
+            $category->placeholder = isset($post_vars['placeholder']) ?  $post_vars['placeholder'] : null;
+            $category->parent = isset($post_vars['parent']) ?  $post_vars['parent'] : null;
+            $category->display_homepage = isset($post_vars['display_homepage']) ?  $post_vars['display_homepage'] : null;
             if($stmt = $category->update()) {
                 print_r(json_encode(array(
                     "status" => 200,
@@ -112,8 +122,8 @@ switch ($request_method) {
             } else {
                 print_r(json_encode(
                     array(
-                        "status" => 400,
-                        "message" => 'Category not found'
+                        "status" => 500,
+                        "message" => 'error updating category'
                     )
                 ));
             }
