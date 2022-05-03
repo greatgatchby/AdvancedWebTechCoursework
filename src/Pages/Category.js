@@ -87,7 +87,7 @@ const Category = () => {
                 setCategory(JSON.parse(xmlhttp.responseText)[0])
             }
         }
-        xmlhttp.open("GET","http://localhost/18021745/php/category?id=8");
+        xmlhttp.open("GET","http://localhost/18021745/php/category?id="+params.id);
         xmlhttp.send();
     }
 
@@ -98,7 +98,7 @@ const Category = () => {
     return (
         <div className={'container-fluid'}>
             <div className={'container'}>
-                <h1>{category.name}</h1>
+                <h1>{category ? category.name : null}</h1>
                 <div className="row">
                     {books ? books.map((item, idx) => (
                         <Item key={idx} title={item.title} description={item.description} image={item.image} author={item.author_id} publisher={item.publisher} isbn={item.isbn}/>

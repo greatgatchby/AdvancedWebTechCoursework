@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 
 export function openNav() {
-    document.getElementById("mySidenav").style.width = "400px";
+    document.getElementById("mySidenav").style.width = "450px";
 }
 
 /* Set the width of the side navigation to 0 */
@@ -25,7 +25,7 @@ const Cart = () => {
                             </td>
                             <td>A series of unfortunate events</td>
                             <td>£14.99</td>
-                            <td>1</td>
+                            <td><input className={'w-50'} placeholder={1} type={'number'} /></td>
                         </tr>
                         </tbody>
                     </table>
@@ -33,7 +33,6 @@ const Cart = () => {
                 <div className={'card-footer'}>
                     <h2>Total: £15.27</h2>
                     <button className="btn btn-primary rounded-pill col-4 me-2">Checkout</button>
-                    <button className="btn btn-secondary rounded-pill col-4">View Cart</button>
                 </div>
             </div>
         </>

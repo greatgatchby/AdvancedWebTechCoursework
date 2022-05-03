@@ -1,4 +1,20 @@
+import {useState} from "react";
+
 const Register = () => {
+    const [values, setValues] = useState({
+        "phone" : null,
+        "password" : null,
+        "passwordConfirm" : null,
+        "firstname" : null,
+        "lastname" : null,
+        "address line 1" : null,
+        "address line 2" : null,
+        "city" : null,
+        "country" : null,
+        "province" : null,
+        "postcode" : null,
+    })
+    const handlePhoneChange = (e) => {}
     return(
         <div className={'container d-flex justify-content-center align-items-center min-vh-100'}>
             <div className={'col-md-6'}>
